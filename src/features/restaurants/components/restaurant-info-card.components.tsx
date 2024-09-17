@@ -4,53 +4,40 @@ import { Card } from "react-native-paper";
 import styled from "styled-components/native";
 import {SvgXml} from "react-native-svg"
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
+import { Spacer } from "../../../components/spacer.components";
 import { Restaurant, RestaurantInfoObject } from "../../../types";
 import star from "../../../../assets/star";
 import open from "../../../../assets/open"
+import { Texts } from "../../../components/typography/text.component"
 
-const Title = styled.Text`
-  font-family: ${props => props.theme.fonts.heading};
-  font-size: ${props => props.theme.fontSizes.body};
-  color: ${(props) => props.theme.colors.ui.success};
-`;
+import {
+  RestaurantCardCover,
+  RestaurantCard,
+  Info,
+  Rating,
+  StatInfo,
+  Status,
+} from "./restautant-info-card.styles";
 
+// const Title = styled.Text`
+//   font-family: ${props => props.theme.fonts.heading};
+//   font-size: ${props => props.theme.fontSizes.body};
+//   color: ${(props) => props.theme.colors.ui.success};
+// `;
 
-const RestaurantCardCover = styled(Card.Cover)`
-  padding: ${props => props.theme.space[2]};
-`;
+// const Address = styled.Text`
+//   font-family: ${props => props.theme.fonts.body};
+//   font-size: ${props => props.theme.fontSizes.caption};
+// `
+// const ClosedTag = styled.Text`
+//   color: ${props => props.theme.colors.text.error};
+//   font-size: ${props => props.theme.fontSizes.caption};
+// `
 
-const RestaurantCard = styled(Card)`
-  background-color: ${(props) => props.theme.colors?.ui.quaternary || "#ffffff"};
-`;
-
-const Info = styled.View`
-  padding: ${props => props.theme.space[3]};
-`
-const Address = styled.Text`
-  font-family: ${props => props.theme.fonts.body};
-  font-size: ${props => props.theme.fontSizes.caption};
-`
-
-const Rating = styled.View`
-  padding-top: ${(props) => props.theme.space[1]};
-  padding-bottom: ${(props) => props.theme.space[1]};
-  flex-direction: row;
-`;
-
-const StatInfo = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const ClosedTag = styled.Text`
-  color: ${props => props.theme.colors.text.error};
-    font-size: ${props => props.theme.fontSizes.caption};
-
-`
-
-const Status = styled.View`
-  flex-direction: row;
-`
+// const Spacing = styled.View`
+//   padding-left:${props => props.theme.space[3]}
+// `
 
 export const RestaurantInfoCard = ({
   restaurant = {} as RestaurantInfoObject,
@@ -59,7 +46,7 @@ export const RestaurantInfoCard = ({
     name = "Jayte's Restaurantt",
     icon = <MaterialIcons name="dinner-dining" size={17} color="black" />,
     photos = ["https://cdn.businessday.ng/2020/08/Restaurants-in-Nigeria.jpg"],
-    address = "my street",
+    address = "my street on the corner",
     isOpenNow = false,
     rating = 3,
     isClosedTemporarily = true,
@@ -68,10 +55,15 @@ export const RestaurantInfoCard = ({
   const ratingArray = Array.from(new Array(rating))
 
   const ClosedTemporarily = () => (
-    <>{isClosedTemporarily && (
-    <ClosedTag>
+    <>
+    {isClosedTemporarily && (
+    // <ClosedTag>
+    <Texts variant="error">
       CLOSED TEMPORARILY
-    </ClosedTag>)}</>
+    </Texts>
+    // </ClosedTag>
+    )}
+    </>
   );
 
   return (
@@ -79,7 +71,7 @@ export const RestaurantInfoCard = ({
       <RestaurantCard elevation={5}>
         <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
         <Info>
-          <Title>{name}</Title>
+          <Texts variant="label">{name}</Texts>
           <StatInfo>
             <Rating>
               {ratingArray.map(() => (
@@ -87,11 +79,18 @@ export const RestaurantInfoCard = ({
               ))}
             </Rating>
             <Status>
-             { isOpenNow ? <SvgXml xml={open} width={20} height={20} /> : <ClosedTemporarily />}
-             <Text>{icon}</Text>
+              {isOpenNow ? (
+                <SvgXml xml={open} width={20} height={20} />
+              ) : (
+                <ClosedTemporarily />
+              )}
+              {/* <Spacing /> */}
+              <Spacer position="left" size="large">
+                <Texts>{icon}</Texts>
+              </Spacer>
             </Status>
           </StatInfo>
-          <Address>{address}</Address>
+          <Texts variant="caption">{address}</Texts>
         </Info>
       </RestaurantCard>
     </View>
